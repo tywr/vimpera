@@ -10,8 +10,10 @@ from characters.b import draw_b
 from characters.c import draw_c
 from characters.d import draw_d
 from characters.e import draw_e
+from characters.f import draw_f
 from characters.g import draw_g
 from characters.i import draw_i
+from characters.j import draw_j
 from characters.l import draw_l
 from characters.p import draw_p
 from characters.h import draw_h
@@ -43,8 +45,10 @@ def build_font(output_path="OrbitonMono.ttf"):
             "c",
             "d",
             "e",
+            "f",
             "h",
             "i",
+            "j",
             "l",
             "o",
             "g",
@@ -67,9 +71,11 @@ def build_font(output_path="OrbitonMono.ttf"):
             98: "b",
             100: "d",
             101: "e",
+            102: "f",
             103: "g",
             104: "h",
             105: "i",
+            106: "j",
             109: "m",
             110: "n",
             112: "p",
@@ -106,11 +112,17 @@ def build_font(output_path="OrbitonMono.ttf"):
     e_pen = TTGlyphPen(None)
     draw_e(e_pen, font_config=FontConfig, stroke=60)
 
+    f_pen = TTGlyphPen(None)
+    draw_f(f_pen, font_config=FontConfig, stroke=60)
+
     g_pen = TTGlyphPen(None)
     draw_g(g_pen, font_config=FontConfig, stroke=60)
 
     i_pen = TTGlyphPen(None)
     draw_i(i_pen, font_config=FontConfig, stroke=60)
+
+    j_pen = TTGlyphPen(None)
+    draw_j(j_pen, font_config=FontConfig, stroke=60)
 
     p_pen = TTGlyphPen(None)
     draw_p(p_pen, font_config=FontConfig, stroke=60)
@@ -143,11 +155,13 @@ def build_font(output_path="OrbitonMono.ttf"):
             "a": a_pen.glyph(),
             "l": l_pen.glyph(),
             "i": i_pen.glyph(),
+            "j": j_pen.glyph(),
             "o": o_pen.glyph(),
             "c": c_pen.glyph(),
             "b": b_pen.glyph(),
             "d": d_pen.glyph(),
             "e": e_pen.glyph(),
+            "f": f_pen.glyph(),
             "g": g_pen.glyph(),
             "h": h_pen.glyph(),
             "m": m_pen.glyph(),
