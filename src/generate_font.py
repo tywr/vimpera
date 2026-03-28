@@ -17,6 +17,7 @@ from characters.q import draw_q
 from characters.r import draw_r
 from characters.u import draw_u
 from characters.y import draw_y
+from characters.e import draw_e
 
 
 def draw_notdef(pen):
@@ -30,10 +31,10 @@ def draw_notdef(pen):
 
 def build_font(output_path="OrbitonMono.ttf"):
     fb = FontBuilder(FontConfig.UNITS_PER_EM, isTTF=True)
-    fb.setupGlyphOrder([".notdef", "space", "o", "c", "b", "d", "g", "h", "m", "n", "p", "q", "r", "u", "y"])
+    fb.setupGlyphOrder([".notdef", "space", "o", "c", "b", "d", "e", "g", "h", "m", "n", "p", "q", "r", "u", "y"])
     fb.setupCharacterMap({
         32: "space", 111: "o", 99: "c",
-        98: "b", 100: "d", 103: "g", 104: "h", 109: "m", 110: "n", 112: "p", 113: "q",
+        98: "b", 100: "d", 101: "e", 103: "g", 104: "h", 109: "m", 110: "n", 112: "p", 113: "q",
         114: "r", 117: "u", 121: "y",
     })
 
@@ -53,6 +54,9 @@ def build_font(output_path="OrbitonMono.ttf"):
 
     d_pen = TTGlyphPen(None)
     draw_d(d_pen, font_config=FontConfig, stroke=60)
+
+    e_pen = TTGlyphPen(None)
+    draw_e(e_pen, font_config=FontConfig, stroke=60)
 
     g_pen = TTGlyphPen(None)
     draw_g(g_pen, font_config=FontConfig, stroke=60)
@@ -89,6 +93,7 @@ def build_font(output_path="OrbitonMono.ttf"):
             "c": c_pen.glyph(),
             "b": b_pen.glyph(),
             "d": d_pen.glyph(),
+            "e": e_pen.glyph(),
             "g": g_pen.glyph(),
             "h": h_pen.glyph(),
             "m": m_pen.glyph(),

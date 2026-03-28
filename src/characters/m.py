@@ -12,7 +12,7 @@ def draw_m(pen, font_config: FontConfig, stroke: int):
     Right arch: non-tapered o, bottom cut, with a short right descender.
     The two arches share a middle stem via pathops union.
     """
-    cut_y = FontConfig.X_HEIGHT / 2
+    cut_y = FontConfig.M_CUT_RATIO * FontConfig.X_HEIGHT
     outer_left = FontConfig.WIDTH / 2 - FontConfig.X_WIDTH / 2 - stroke / 2
     outer_right = FontConfig.WIDTH / 2 + FontConfig.X_WIDTH / 2 + stroke / 2
     mid_x = FontConfig.WIDTH / 2
@@ -20,9 +20,15 @@ def draw_m(pen, font_config: FontConfig, stroke: int):
     # --- Left arch: tapered o centered on left half ---
     left_center = (outer_left + mid_x + stroke / 2) / 2
     rec_left = RecordingPen()
-    draw_o(rec_left, font_config=font_config, stroke=stroke,
-           taper="left", taper_ratio=FontConfig.TAPER_RATIO,
-           center_x=left_center, x_ratio=0.5)
+    draw_o(
+        rec_left,
+        font_config=font_config,
+        stroke=stroke,
+        taper="left",
+        taper_ratio=FontConfig.TAPER_RATIO,
+        center_x=left_center,
+        x_ratio=0.5,
+    )
 
     left_path = pathops.Path()
     rec_left.replay(left_path.getPen())
@@ -52,13 +58,22 @@ def draw_m(pen, font_config: FontConfig, stroke: int):
     # --- Right arch: non-tapered o centered on right half ---
     right_center = (mid_x + outer_right - stroke / 2) / 2
     rec_right = RecordingPen()
-    draw_o(rec_right, font_config=font_config, stroke=stroke,
-           center_x=right_center, x_ratio=0.5)
+    draw_o(
+        rec_right,
+        font_config=font_config,
+        stroke=stroke,
+        center_x=right_center,
+        taper="left",
+        taper_ratio=1,
+        x_ratio=0.5,
+    )
 
     right_path = pathops.Path()
     rec_right.replay(right_path.getPen())
 
-    right_arch = pathops.op(right_path, cut, pathops.PathOp.DIFFERENCE, fix_winding=True)
+    right_arch = pathops.op(
+        right_path, cut, pathops.PathOp.DIFFERENCE, fix_winding=True
+    )
 
     result = pathops.op(result, right_arch, pathops.PathOp.UNION, fix_winding=True)
 

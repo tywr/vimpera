@@ -14,7 +14,7 @@ class FontConfig:
     V_RADIUS = 200
 
     # Taper ratio for most letters
-    TAPER_RATIO = 0.5
+    TAPER_RATIO = 0.6
 
     # Radius for the flat hooks (g, y, f etc.)
     HOOK_RADIUS = 200
@@ -25,6 +25,12 @@ class FontConfig:
     # Opening of the C-letter (percentage of x-height)
     C_GAP_TOP = 0.3
     C_GAP_BOTTOM = 0.7
+
+    # How long should the bottom e tail be (percentage of width)
+    E_TAIL_RATIO = 0.9
+
+    # Length of the m letter middle tail (percentage of x-height)
+    M_CUT_RATIO = 0.4
 
     # Cut of the R-letter (percentage of x-height)
     R_CUT = 0.7

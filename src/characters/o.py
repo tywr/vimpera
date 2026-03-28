@@ -46,7 +46,7 @@ def draw_o(
     max_ch = (outer_right - outer_left) / 2
     max_cv = font_config.X_HEIGHT / 2
     outer_corner_h = min(h_radius, max_ch)
-    v_radius = min(v_radius, max_cv)
+    outer_corner_v = min(v_radius, max_cv)
 
     # Outer shape
     rounded_rect(
@@ -56,15 +56,16 @@ def draw_o(
         right=outer_right,
         top=font_config.X_HEIGHT,
         corner_h=outer_corner_h,
-        corner_v=v_radius,
+        corner_v=outer_corner_v,
         clockwise=False,
     )
 
-    # Inner corner params — computed from the inner contour's own dimensions
-    inner_width = inner_right - inner_left
-    inner_height = (height - stroke) - stroke
-    inner_corner_h = min(h_radius, inner_width / 2)
-    inner_corner_v = min(v_radius, inner_height / 2)
+    # Inner corners — derived from the non-tapered outer dimensions
+    # so the inner shape stays identical regardless of taper
+    full_outer_width = (inner_right + stroke) - (inner_left - stroke)
+    full_corner_h = min(h_radius, full_outer_width / 2)
+    inner_corner_h = max(0, full_corner_h - stroke)
+    inner_corner_v = max(0, outer_corner_v - stroke)
 
     # Inner shape
     rounded_rect(
