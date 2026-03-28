@@ -42,7 +42,7 @@ def rounded_half_loop(
     iyo = y_offset * inner_half_h / outer_half_h if outer_half_h > 0 else 0
 
     if half == "top":
-        # Outer top half (CCW): right-mid -> top-mid -> left-mid -> close
+        # Single contour: outer arch right→left, line to inner, inner arch left→right
         pen.moveTo((x2, mid_y))
         pen.curveTo(
             (x2, mid_y + y_offset),
@@ -54,10 +54,7 @@ def rounded_half_loop(
             (x1, mid_y + y_offset),
             (x1, mid_y),
         )
-        pen.closePath()
-
-        # Inner top half (CW): left-mid -> top-mid -> right-mid -> close
-        pen.moveTo((ix1, mid_y))
+        pen.lineTo((ix1, mid_y))
         pen.curveTo(
             (ix1, mid_y + iyo),
             (imid_x - ixo, iy2),
@@ -71,7 +68,7 @@ def rounded_half_loop(
         pen.closePath()
 
     elif half == "bottom":
-        # Outer bottom half (CCW): left-mid -> bottom-mid -> right-mid -> close
+        # Single contour: outer arch left→right, line to inner, inner arch right→left
         pen.moveTo((x1, mid_y))
         pen.curveTo(
             (x1, mid_y - y_offset),
@@ -83,10 +80,7 @@ def rounded_half_loop(
             (x2, mid_y - y_offset),
             (x2, mid_y),
         )
-        pen.closePath()
-
-        # Inner bottom half (CW): right-mid -> bottom-mid -> left-mid -> close
-        pen.moveTo((ix2, mid_y))
+        pen.lineTo((ix2, mid_y))
         pen.curveTo(
             (ix2, mid_y - iyo),
             (imid_x + ixo, iy1),
@@ -170,7 +164,7 @@ def rounded_half_loop_tapered(
     iyo = y_offset * ratio_h
 
     if half == "top":
-        # Outer top half (CCW): right-mid -> top-mid -> left-mid -> close
+        # Single contour: outer arch right→left, line to inner, inner arch left→right
         pen.moveTo((outer_x2, mid_y))
         pen.curveTo(
             (outer_x2, mid_y + yo_right),
@@ -182,10 +176,7 @@ def rounded_half_loop_tapered(
             (outer_x1, mid_y + yo_left),
             (outer_x1, mid_y),
         )
-        pen.closePath()
-
-        # Inner top half (CW): left-mid -> top-mid -> right-mid -> close
-        pen.moveTo((ix1, mid_y))
+        pen.lineTo((ix1, mid_y))
         pen.curveTo(
             (ix1, mid_y + iyo),
             (imid_x - ixo, iy2),
@@ -199,7 +190,7 @@ def rounded_half_loop_tapered(
         pen.closePath()
 
     elif half == "bottom":
-        # Outer bottom half (CCW): left-mid -> bottom-mid -> right-mid -> close
+        # Single contour: outer arch left→right, line to inner, inner arch right→left
         pen.moveTo((outer_x1, mid_y))
         pen.curveTo(
             (outer_x1, mid_y - yo_left),
@@ -211,10 +202,7 @@ def rounded_half_loop_tapered(
             (outer_x2, mid_y - yo_right),
             (outer_x2, mid_y),
         )
-        pen.closePath()
-
-        # Inner bottom half (CW): right-mid -> bottom-mid -> left-mid -> close
-        pen.moveTo((ix2, mid_y))
+        pen.lineTo((ix2, mid_y))
         pen.curveTo(
             (ix2, mid_y - iyo),
             (imid_x + ixo, iy1),
