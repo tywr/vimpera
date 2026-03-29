@@ -13,6 +13,7 @@ from glyphs.letters.e import draw_e
 from glyphs.letters.f import draw_f
 from glyphs.letters.g import draw_g
 from glyphs.letters.h import draw_h
+from glyphs.letters.n import draw_n
 
 STROKE = 60
 
@@ -42,6 +43,7 @@ def build_font(output_path="OrbitonMono.otf"):
         0x66: "f",
         0x67: "g",
         0x68: "h",
+        0x6E: "n",
         0x6F: "o",
     }
 
@@ -62,6 +64,7 @@ def build_font(output_path="OrbitonMono.otf"):
         "f": record_glyph(draw_f),
         "g": record_glyph(draw_g),
         "h": record_glyph(draw_h),
+        "n": record_glyph(draw_n),
         "o": record_glyph(draw_o),
     }
     glyph_names = list(charstrings.keys())
