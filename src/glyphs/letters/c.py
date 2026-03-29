@@ -30,3 +30,4 @@ def draw_c(
 
     result = BooleanGlyph(loop_glyph).difference(BooleanGlyph(cut_glyph))
     result.draw(pen)
+

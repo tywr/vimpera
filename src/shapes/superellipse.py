@@ -38,7 +38,8 @@ def draw_superellipse(
                 (x2, mid_y),
             )
         if cut != "bottom":
-            pen.moveTo((x2, mid_y))
+            if cut == "top":
+                pen.moveTo((x2, mid_y))
             pen.curveTo(  # bottom-right
                 (x2, mid_y - hy),
                 (mid_x + hx, y1),
@@ -63,7 +64,8 @@ def draw_superellipse(
                 (x1, mid_y),
             )
         if cut != "bottom":
-            pen.moveTo((x1, mid_y))
+            if cut == "top":
+                pen.moveTo((x1, mid_y))
             pen.curveTo(  # bottom-left
                 (x1, mid_y - hy),
                 (mid_x - hx, y1),
