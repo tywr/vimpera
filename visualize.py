@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.path import Path
 from fontTools.pens.recordingPen import RecordingPen
-import pathops
 
 sys.path.insert(0, "src")
 from config import FontConfig as fc
@@ -15,11 +14,11 @@ from config import FontConfig as fc
 STROKE = 60
 
 
-def contour_to_mpl_path(contour):
-    """Convert a single contour (list of pen ops) to a matplotlib Path."""
+def recording_to_mpl_path(recording):
+    """Convert RecordingPen operations to a matplotlib Path."""
     verts = []
     codes = []
-    for op, args in contour:
+    for op, args in recording.value:
         if op == "moveTo":
             verts.append(args[0])
             codes.append(Path.MOVETO)
@@ -31,30 +30,9 @@ def contour_to_mpl_path(contour):
                 verts.append(pt)
             codes.extend([Path.CURVE4, Path.CURVE4, Path.CURVE4])
         elif op == "closePath":
-            verts.append(verts[0])
+            verts.append(verts[-len(verts) + codes.index(Path.MOVETO)])
             codes.append(Path.CLOSEPOLY)
     return Path(verts, codes)
-
-
-def split_into_contours(recording):
-    """Split a RecordingPen into individual contour op lists."""
-    contours = []
-    current = []
-    for op, args in recording.value:
-        current.append((op, args))
-        if op == "closePath":
-            contours.append(current)
-            current = []
-    return contours
-
-
-def add_glyph_patches(ax, recording, fg="#222222"):
-    """Paint every contour with foreground color, layered in drawing order."""
-    contours = split_into_contours(recording)
-    for contour in contours:
-        path = contour_to_mpl_path(contour)
-        patch = mpatches.PathPatch(path, facecolor=fg, edgecolor="none", zorder=2)
-        ax.add_patch(patch)
 
 
 def plot_control_points(ax, recording):
@@ -74,16 +52,6 @@ def plot_control_points(ax, recording):
                     "-", color="#e74c3c", linewidth=0.5, alpha=0.5, zorder=4)
 
 
-def resolve_overlaps(recording):
-    """Resolve overlapping contours using non-zero winding rule (like OTF rendering)."""
-    path = pathops.Path()
-    recording.replay(path.getPen())
-    simplified = pathops.simplify(path, fix_winding=True, keep_starting_points=False)
-    result = RecordingPen()
-    simplified.draw(result)
-    return result
-
-
 def visualize(family, glyph, show_controls=False):
     mod = importlib.import_module(f"glyphs.{family}.{glyph}")
     draw_fn = getattr(mod, f"draw_{glyph}")
@@ -93,7 +61,9 @@ def visualize(family, glyph, show_controls=False):
 
     fig, ax = plt.subplots(1, 1, figsize=(6, 8))
 
-    add_glyph_patches(ax, rec)
+    path = recording_to_mpl_path(rec)
+    patch = mpatches.PathPatch(path, facecolor="#222222", edgecolor="none")
+    ax.add_patch(patch)
 
     if show_controls:
         plot_control_points(ax, rec)

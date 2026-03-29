@@ -1,39 +1,17 @@
-"""Generate a TTF font with cubic bezier support."""
+"""Generate OrbitonMono OTF font with CFF outlines."""
 
 from fontTools.fontBuilder import FontBuilder
-from fontTools.pens.ttGlyphPen import TTGlyphPen
+from fontTools.pens.t2CharStringPen import T2CharStringPen
 
-from config import FontConfig
-from characters.o import draw_o
-from characters.a import draw_a
-from characters.b import draw_b
-from characters.c import draw_c
-from characters.d import draw_d
-from characters.e import draw_e
-from characters.f import draw_f
-from characters.g import draw_g
-from characters.i import draw_i
-from characters.j import draw_j
-from characters.k import draw_k
-from characters.l import draw_l
-from characters.p import draw_p
-from characters.h import draw_h
-from characters.m import draw_m
-from characters.n import draw_n
-from characters.q import draw_q
-from characters.r import draw_r
-from characters.s import draw_s
-from characters.t import draw_t
-from characters.u import draw_u
-from characters.v import draw_v
-from characters.w import draw_w
-from characters.x import draw_x
-from characters.y import draw_y
-from characters.z import draw_z
+from config import FontConfig as fc
+from glyphs.letters.o import draw_o
+from glyphs.letters.b import draw_b
+from glyphs.letters.d import draw_d
+
+STROKE = 60
 
 
 def draw_notdef(pen):
-    """Simple rectangle for the .notdef glyph."""
     pen.moveTo((50, 0))
     pen.lineTo((50, 700))
     pen.lineTo((450, 700))
@@ -41,234 +19,76 @@ def draw_notdef(pen):
     pen.closePath()
 
 
-def build_font(output_path="OrbitonMono.ttf"):
-    fb = FontBuilder(FontConfig.UNITS_PER_EM, isTTF=True)
-    fb.setupGlyphOrder(
-        [
-            ".notdef",
-            "space",
-            "a",
-            "b",
-            "c",
-            "d",
-            "e",
-            "f",
-            "h",
-            "i",
-            "j",
-            "k",
-            "l",
-            "o",
-            "g",
-            "m",
-            "n",
-            "p",
-            "q",
-            "r",
-            "s",
-            "t",
-            "u",
-            "v",
-            "w",
-            "x",
-            "y",
-            "z",
-        ]
-    )
-    fb.setupCharacterMap(
-        {
-            32: "space",
-            97: "a",
-            108: "l",
-            111: "o",
-            99: "c",
-            98: "b",
-            100: "d",
-            101: "e",
-            102: "f",
-            103: "g",
-            104: "h",
-            105: "i",
-            106: "j",
-            107: "k",
-            109: "m",
-            110: "n",
-            112: "p",
-            113: "q",
-            114: "r",
-            115: "s",
-            116: "t",
-            117: "u",
-            118: "v",
-            119: "w",
-            120: "x",
-            121: "y",
-            122: "z",
-        }
-    )
+def record_glyph(draw_fn):
+    pen = T2CharStringPen(fc.width, None)
+    draw_fn(pen, stroke=STROKE)
+    return pen.getCharString()
 
-    stroke = 60
 
-    notdef_pen = TTGlyphPen(None)
+def build_font(output_path="OrbitonMono.otf"):
+    glyph_names = [".notdef", "space", "b", "d", "o"]
+
+    cmap = {
+        0x20: "space",
+        0x62: "b",
+        0x64: "d",
+        0x6F: "o",
+    }
+
+    # Build charstrings
+    notdef_pen = T2CharStringPen(fc.width, None)
     draw_notdef(notdef_pen)
 
-    space_pen = TTGlyphPen(None)
+    space_pen = T2CharStringPen(fc.width, None)
 
-    a_pen = TTGlyphPen(None)
-    draw_a(a_pen, font_config=FontConfig, stroke=stroke)
+    charstrings = {
+        ".notdef": notdef_pen.getCharString(),
+        "space": space_pen.getCharString(),
+        "b": record_glyph(draw_b),
+        "d": record_glyph(draw_d),
+        "o": record_glyph(draw_o),
+    }
 
-    l_pen = TTGlyphPen(None)
-    draw_l(l_pen, font_config=FontConfig, stroke=stroke)
-
-    o_pen = TTGlyphPen(None)
-    draw_o(o_pen, font_config=FontConfig, stroke=stroke)
-
-    c_pen = TTGlyphPen(None)
-    draw_c(c_pen, font_config=FontConfig, stroke=stroke)
-
-    b_pen = TTGlyphPen(None)
-    draw_b(b_pen, font_config=FontConfig, stroke=stroke)
-
-    d_pen = TTGlyphPen(None)
-    draw_d(d_pen, font_config=FontConfig, stroke=stroke)
-
-    e_pen = TTGlyphPen(None)
-    draw_e(e_pen, font_config=FontConfig, stroke=stroke)
-
-    f_pen = TTGlyphPen(None)
-    draw_f(f_pen, font_config=FontConfig, stroke=stroke)
-
-    g_pen = TTGlyphPen(None)
-    draw_g(g_pen, font_config=FontConfig, stroke=stroke)
-
-    i_pen = TTGlyphPen(None)
-    draw_i(i_pen, font_config=FontConfig, stroke=stroke)
-
-    j_pen = TTGlyphPen(None)
-    draw_j(j_pen, font_config=FontConfig, stroke=stroke)
-
-    k_pen = TTGlyphPen(None)
-    draw_k(k_pen, font_config=FontConfig, stroke=stroke)
-
-    p_pen = TTGlyphPen(None)
-    draw_p(p_pen, font_config=FontConfig, stroke=stroke)
-
-    h_pen = TTGlyphPen(None)
-    draw_h(h_pen, font_config=FontConfig, stroke=stroke)
-
-    m_pen = TTGlyphPen(None)
-    draw_m(m_pen, font_config=FontConfig, stroke=stroke)
-
-    n_pen = TTGlyphPen(None)
-    draw_n(n_pen, font_config=FontConfig, stroke=stroke)
-
-    q_pen = TTGlyphPen(None)
-    draw_q(q_pen, font_config=FontConfig, stroke=stroke)
-
-    r_pen = TTGlyphPen(None)
-    draw_r(r_pen, font_config=FontConfig, stroke=stroke)
-
-    s_pen = TTGlyphPen(None)
-    draw_s(s_pen, font_config=FontConfig, stroke=stroke)
-
-    t_pen = TTGlyphPen(None)
-    draw_t(t_pen, font_config=FontConfig, stroke=stroke)
-
-    u_pen = TTGlyphPen(None)
-    draw_u(u_pen, font_config=FontConfig, stroke=stroke)
-
-    v_pen = TTGlyphPen(None)
-    draw_v(v_pen, font_config=FontConfig, stroke=stroke)
-
-    w_pen = TTGlyphPen(None)
-    draw_w(w_pen, font_config=FontConfig, stroke=stroke)
-
-    x_pen = TTGlyphPen(None)
-    draw_x(x_pen, font_config=FontConfig, stroke=stroke)
-
-    y_pen = TTGlyphPen(None)
-    draw_y(y_pen, font_config=FontConfig, stroke=stroke)
-
-    z_pen = TTGlyphPen(None)
-    draw_z(z_pen, font_config=FontConfig, stroke=stroke)
-
-    fb.setupHead(glyphDataFormat=1)
-    fb.setupGlyf(
-        {
-            ".notdef": notdef_pen.glyph(),
-            "space": space_pen.glyph(),
-            "a": a_pen.glyph(),
-            "l": l_pen.glyph(),
-            "i": i_pen.glyph(),
-            "j": j_pen.glyph(),
-            "k": k_pen.glyph(),
-            "o": o_pen.glyph(),
-            "c": c_pen.glyph(),
-            "b": b_pen.glyph(),
-            "d": d_pen.glyph(),
-            "e": e_pen.glyph(),
-            "f": f_pen.glyph(),
-            "g": g_pen.glyph(),
-            "h": h_pen.glyph(),
-            "m": m_pen.glyph(),
-            "n": n_pen.glyph(),
-            "p": p_pen.glyph(),
-            "q": q_pen.glyph(),
-            "r": r_pen.glyph(),
-            "s": s_pen.glyph(),
-            "t": t_pen.glyph(),
-            "u": u_pen.glyph(),
-            "v": v_pen.glyph(),
-            "w": w_pen.glyph(),
-            "x": x_pen.glyph(),
-            "y": y_pen.glyph(),
-            "z": z_pen.glyph(),
-        }
+    fb = FontBuilder(fc.units_per_em, isTTF=False)
+    fb.setupGlyphOrder(glyph_names)
+    fb.setupCharacterMap(cmap)
+    fb.setupCFF(
+        psName=f"{fc.family_name}-Regular",
+        fontInfo={"FullName": f"{fc.family_name} Regular"},
+        charStringsDict=charstrings,
+        privateDict={},
     )
-
-    # Compute LSB from actual glyph bounds so renderers don't shift glyphs
-    glyf_table = fb.font["glyf"]
-    metrics = {}
-    for name in fb.font.getGlyphOrder():
-        glyph = glyf_table[name]
-        if glyph.numberOfContours == 0 or not hasattr(glyph, "xMin"):
-            lsb = 0
-        else:
-            lsb = glyph.xMin
-        metrics[name] = (FontConfig.WIDTH, lsb)
-    fb.setupHorizontalMetrics(metrics)
-
-    fb.setupHorizontalHeader(ascent=FontConfig.ASCENT, descent=FontConfig.DESCENT)
-    fb.setupNameTable(
-        {
-            "familyName": FontConfig.FAMILY_NAME,
-            "styleName": "Regular",
-            "uniqueFontIdentifier": FontConfig.FAMILY_NAME + "-Regular",
-            "fullName": FontConfig.FAMILY_NAME + " Regular",
-            "version": "Version 1.000",
-            "psName": FontConfig.FAMILY_NAME + "-Regular",
-        }
-    )
-    # Add gasp table for proper rasterization on macOS
-    from fontTools.ttLib.tables._g_a_s_p import table__g_a_s_p
-    gasp = table__g_a_s_p()
-    gasp.version = 1
-    gasp.gaspRange = {0xFFFF: 0x000A}
-    fb.font["gasp"] = gasp
+    fb.setupHorizontalMetrics({name: (fc.width, 0) for name in glyph_names})
+    fb.setupHorizontalHeader(ascent=fc.ascent, descent=fc.descent)
+    fb.setupNameTable({
+        "familyName": "OrbitonMono",
+        "styleName": "Regular",
+        "uniqueFontIdentifier": "OrbitonMono-Regular",
+        "fullName": "OrbitonMono Regular",
+        "version": "Version 1.000",
+        "psName": "OrbitonMono-Regular",
+    })
     fb.setupOS2(
-        sTypoAscender=FontConfig.ASCENT,
-        sTypoDescender=FontConfig.DESCENT,
+        sTypoAscender=fc.ascent,
+        sTypoDescender=fc.descent,
         sTypoLineGap=0,
+        usWinAscent=fc.ascent,
+        usWinDescent=abs(fc.descent),
+        sxHeight=fc.x_height,
+        sCapHeight=fc.cap,
         fsType=0,
-        sxHeight=FontConfig.X_HEIGHT,
-        sCapHeight=FontConfig.CAP,
-        usDefaultChar=0,
-        usBreakChar=32,
-        usWinAscent=FontConfig.ASCENT,
-        usWinDescent=abs(FontConfig.DESCENT),
-        achVendID="NONE",
     )
     fb.setupPost(isFixedPitch=1)
+    fb.setupHead(unitsPerEm=fc.units_per_em)
+
+    # Dummy DSIG so macOS validators don't complain
+    from fontTools.ttLib import newTable
+    dsig = newTable("DSIG")
+    dsig.ulVersion = 1
+    dsig.usFlag = 0
+    dsig.usNumSigs = 0
+    dsig.signatureRecords = []
+    fb.font["DSIG"] = dsig
 
     fb.font.save(output_path)
     print(f"Font saved to {output_path}")
