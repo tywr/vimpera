@@ -15,12 +15,16 @@ def _draw_outer_ear(
 ):
     mid_x = (x1 + x2) / 2
     mid_y = (y1 + y2) / 2
-    p_start = (x1 + stroke, y1 + tooth)
-    p_end = (x1 + stroke, y2 - tooth)
+    p_start = (x1 + stroke, y1 + tooth - stroke / 2)
+    p_end = (x1 + stroke, y2 - tooth + stroke / 2)
 
     # Trace: p_start → bottom → right side (superellipse) → top → p_end → close
     pen.moveTo(p_start)
-    pen.lineTo((mid_x, y1))
+    pen.curveTo(
+        (p_start[0], y1),
+        (mid_x, y1),
+        (mid_x, y1)
+    )
     # bottom-right quarter
     pen.curveTo(
         (mid_x + hx, y1),
@@ -33,7 +37,11 @@ def _draw_outer_ear(
         (mid_x + hx, y2),
         (mid_x, y2),
     )
-    pen.lineTo(p_end)
+    pen.curveTo(
+        (mid_x, y2),
+        (p_end[0], y2),
+        (p_end[0], p_end[1])
+    )
     pen.closePath()
 
 

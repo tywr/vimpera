@@ -35,7 +35,24 @@ def recording_to_mpl_path(recording):
     return Path(verts, codes)
 
 
-def visualize(family, glyph):
+def plot_control_points(ax, recording):
+    """Plot on-curve points and off-curve control points with connecting lines."""
+    for op, args in recording.value:
+        if op == "moveTo":
+            ax.plot(*args[0], "o", color="#2ecc71", markersize=5, zorder=5)
+        elif op == "lineTo":
+            ax.plot(*args[0], "o", color="#2ecc71", markersize=5, zorder=5)
+        elif op == "curveTo":
+            cp1, cp2, pt = args
+            ax.plot(*cp1, "x", color="#e74c3c", markersize=6, zorder=5)
+            ax.plot(*cp2, "x", color="#e74c3c", markersize=6, zorder=5)
+            ax.plot(*pt, "o", color="#2ecc71", markersize=5, zorder=5)
+            # Lines from on-curve to off-curve handles
+            ax.plot([cp1[0], cp2[0]], [cp1[1], cp2[1]],
+                    "-", color="#e74c3c", linewidth=0.5, alpha=0.5, zorder=4)
+
+
+def visualize(family, glyph, show_controls=False):
     mod = importlib.import_module(f"glyphs.{family}.{glyph}")
     draw_fn = getattr(mod, f"draw_{glyph}")
 
@@ -47,6 +64,9 @@ def visualize(family, glyph):
     path = recording_to_mpl_path(rec)
     patch = mpatches.PathPatch(path, facecolor="#222222", edgecolor="none")
     ax.add_patch(patch)
+
+    if show_controls:
+        plot_control_points(ax, rec)
 
     # draw guides
     for y, label, color in [
@@ -73,6 +93,10 @@ def visualize(family, glyph):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
-        sys.exit(1)
-    visualize(sys.argv[1], sys.argv[2])
+    import argparse
+    parser = argparse.ArgumentParser(description="Visualize a single glyph")
+    parser.add_argument("family", help="Glyph family (e.g. base, letters)")
+    parser.add_argument("glyph", help="Glyph name (e.g. d, superellipse_ear)")
+    parser.add_argument("-c", action="store_true", help="Show bezier control points")
+    args = parser.parse_args()
+    visualize(args.family, args.glyph, show_controls=args.c)
