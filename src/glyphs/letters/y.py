@@ -6,7 +6,7 @@ from shapes.polygon import draw_polygon
 
 class LowercaseYGlyph(Glyph):
     name = "y"
-    unicode = "0x77"
+    unicode = "0x79"
 
     def draw(
         self,
@@ -15,7 +15,7 @@ class LowercaseYGlyph(Glyph):
     ):
         offset = 0
         width = 345
-        dent_height = 40
+        dent_height = 60
 
         xmid = fc.width / 2 + offset
 

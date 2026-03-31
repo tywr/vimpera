@@ -12,7 +12,7 @@ from glyph import Glyph
 
 import glyphs.letters
 
-STROKE = 60
+STROKE = 70
 
 
 def discover_glyphs():
@@ -34,13 +34,16 @@ def draw_notdef(pen):
 
 
 def record_glyph(glyph, **kwargs):
-    path = pathops.Path()
-    pen = pathops.PathPen(path)
-    glyph.draw(pathops.PathPen(path), **kwargs)
-    path = pathops.simplify(path, clockwise=False)
-
+    # path = pathops.Path()
+    # pen = pathops.PathPen(path)
+    # glyph.draw(pathops.PathPen(path), **kwargs)
+    # path = pathops.simplify(path, clockwise=False)
+    #
+    # pen = T2CharStringPen(fc.width, None)
+    # path.draw(pen)
+    # return pen.getCharString()
     pen = T2CharStringPen(fc.width, None)
-    path.draw(pen)
+    glyph.draw(pen, **kwargs)
     return pen.getCharString()
 
 

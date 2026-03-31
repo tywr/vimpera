@@ -7,7 +7,7 @@ from shapes.polygon import draw_polygon
 
 class LowercaseZGlyph(Glyph):
     name = "z"
-    unicode = "0x78"
+    unicode = "0x7a"
 
     def draw(
         self,

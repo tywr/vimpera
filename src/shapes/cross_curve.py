@@ -31,10 +31,19 @@ def draw_cross_curve(
 
     s2 = stroke / 2
 
-    pen.moveTo((x1, y1))
-    pen.curveTo((x1, y1 + sign * ohy), (x1, y1 + sign * ohy), (mid_x, mid_y + sign * s2))
-    pen.curveTo((x2 - stroke, y2 - sign * ihy), (x2 - stroke, y2 - sign * ihy), (x2 - stroke, y2))
-    pen.lineTo((x2, y2))
-    pen.curveTo((x2, y2 - sign * ohy), (x2, y2 - sign * ohy), (mid_x, mid_y - sign * s2))
-    pen.curveTo((x1 + stroke, y1 + sign * ihy), (x1 + stroke, y1 + sign * ihy), (x1 + stroke, y1))
-    pen.closePath()
+    if invert:
+        pen.moveTo((x1 + stroke, y1))
+        pen.curveTo((x1 + stroke, y1 + sign * ihy), (x1 + stroke, y1 + sign * ihy), (mid_x, mid_y - sign * s2))
+        pen.curveTo((x2, y2 - sign * ohy), (x2, y2 - sign * ohy), (x2, y2))
+        pen.lineTo((x2 - stroke, y2))
+        pen.curveTo((x2 - stroke, y2 - sign * ihy), (x2 - stroke, y2 - sign * ihy), (mid_x, mid_y + sign * s2))
+        pen.curveTo((x1, y1 + sign * ohy), (x1, y1 + sign * ohy), (x1, y1))
+        pen.closePath()
+    else:
+        pen.moveTo((x1, y1))
+        pen.curveTo((x1, y1 + sign * ohy), (x1, y1 + sign * ohy), (mid_x, mid_y + sign * s2))
+        pen.curveTo((x2 - stroke, y2 - sign * ihy), (x2 - stroke, y2 - sign * ihy), (x2 - stroke, y2))
+        pen.lineTo((x2, y2))
+        pen.curveTo((x2, y2 - sign * ohy), (x2, y2 - sign * ohy), (mid_x, mid_y - sign * s2))
+        pen.curveTo((x1 + stroke, y1 + sign * ihy), (x1 + stroke, y1 + sign * ihy), (x1 + stroke, y1))
+        pen.closePath()
