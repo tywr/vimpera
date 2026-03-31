@@ -67,6 +67,9 @@ class FontConfig:
 
     m_offset = 0
     m_width = 400
+    m_hx = 150
+    m_hy = 150
+    m_mid_len = 0.6
 
     n_offset = 0
 
