@@ -1,23 +1,28 @@
 """Generate font."""
 
+import importlib
+import pkgutil
+
 import pathops
 from fontTools.fontBuilder import FontBuilder
 from fontTools.pens.t2CharStringPen import T2CharStringPen
 
 from config import FontConfig as fc
+from glyph import Glyph
 
-from glyphs.letters.a import draw_a
-from glyphs.letters.o import draw_o
-from glyphs.letters.b import draw_b
-from glyphs.letters.c import draw_c
-from glyphs.letters.d import draw_d
-from glyphs.letters.e import draw_e
-from glyphs.letters.f import draw_f
-from glyphs.letters.g import draw_g
-from glyphs.letters.h import draw_h
-from glyphs.letters.n import draw_n
+import glyphs.letters
 
 STROKE = 60
+
+
+def discover_glyphs():
+    """Recursively import all modules under glyphs/ and return Glyph subclasses."""
+    for pkg in [glyphs.letters]:
+        for importer, modname, ispkg in pkgutil.walk_packages(
+            pkg.__path__, pkg.__name__ + "."
+        ):
+            importlib.import_module(modname)
+    return [cls() for cls in Glyph.__subclasses__()]
 
 
 def draw_notdef(pen):
@@ -28,10 +33,10 @@ def draw_notdef(pen):
     pen.closePath()
 
 
-def record_glyph(draw_fn, **kwargs):
+def record_glyph(glyph, **kwargs):
     path = pathops.Path()
     pen = pathops.PathPen(path)
-    draw_fn(pathops.PathPen(path), **kwargs)
+    glyph.draw(pathops.PathPen(path), **kwargs)
     path = pathops.simplify(path, clockwise=False)
 
     pen = T2CharStringPen(fc.width, None)
@@ -40,19 +45,11 @@ def record_glyph(draw_fn, **kwargs):
 
 
 def build_font(output_path=f"{fc.family_name}.otf"):
-    cmap = {
-        0x20: "space",
-        0x61: "a",
-        0x62: "b",
-        0x63: "c",
-        0x64: "d",
-        0x65: "e",
-        0x66: "f",
-        0x67: "g",
-        0x68: "h",
-        0x6E: "n",
-        0x6F: "o",
-    }
+    all_glyphs = discover_glyphs()
+
+    cmap = {0x20: "space"}
+    for g in all_glyphs:
+        cmap[int(g.unicode, 16)] = g.name
 
     # Build charstrings
     notdef_pen = T2CharStringPen(fc.width, None)
@@ -63,17 +60,10 @@ def build_font(output_path=f"{fc.family_name}.otf"):
     charstrings = {
         ".notdef": notdef_pen.getCharString(),
         "space": space_pen.getCharString(),
-        "a": record_glyph(draw_a, stroke=60),
-        "b": record_glyph(draw_b, stroke=60),
-        "c": record_glyph(draw_c, stroke=60),
-        "d": record_glyph(draw_d, stroke=60),
-        "e": record_glyph(draw_e, stroke=60),
-        "f": record_glyph(draw_f, stroke=60),
-        "g": record_glyph(draw_g, stroke=60),
-        "h": record_glyph(draw_h, stroke=60),
-        "n": record_glyph(draw_n, stroke=60),
-        "o": record_glyph(draw_o, stroke=60),
     }
+    for g in all_glyphs:
+        charstrings[g.name] = record_glyph(g, stroke=STROKE)
+
     glyph_names = list(charstrings.keys())
 
     fb = FontBuilder(fc.units_per_em, isTTF=False)
@@ -89,12 +79,12 @@ def build_font(output_path=f"{fc.family_name}.otf"):
     fb.setupHorizontalHeader(ascent=fc.ascent, descent=fc.descent)
     fb.setupNameTable(
         {
-            "familyName": "OrbitonMono",
+            "familyName": fc.family_name,
             "styleName": "Regular",
-            "uniqueFontIdentifier": "OrbitonMono-Regular",
-            "fullName": "OrbitonMono Regular",
+            "uniqueFontIdentifier": f"{fc.family_name}-Regular",
+            "fullName": f"{fc.family_name} Regular",
             "version": "Version 1.000",
-            "psName": "OrbitonMono-Regular",
+            "psName": f"{fc.family_name}-Regular",
         }
     )
     fb.setupOS2(

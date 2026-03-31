@@ -15,9 +15,9 @@ class LowercaseGGlyph(Glyph):
         stroke: int,
     ):
         offset = 0
-        width = 320
-        hx = 200
-        hy = 230
+        width = fc.width
+        hx = fc.hx
+        hy = fc.hy
         corner_width = 160
         corner_hx = 100
         corner_hy = 115

@@ -4,9 +4,9 @@ from shapes.superellipse_ear import draw_superellipse_ear
 from shapes.rect import draw_rect
 
 
-class LowercaseBGlyph(Glyph):
-    name = "b"
-    unicode = "0x62"
+class LowercaseRGlyph(Glyph):
+    name = "r"
+    unicode = "0x72"
 
     def draw(
         self,
@@ -16,12 +16,14 @@ class LowercaseBGlyph(Glyph):
         offset = 0
         width = fc.width
         hx = fc.hx
-        hy = fc.hy
+        hy = fc.hy / 2
 
         x1 = fc.width / 2 - width / 2 - stroke / 2 + offset
-        y1 = -fc.overshoot
+        y1 = -fc.overshoot + fc.x_height / 2 - stroke / 2
         x2 = fc.width / 2 + width / 2 + stroke / 2 + offset
         y2 = fc.x_height + fc.overshoot
+
+        # Arch
         draw_superellipse_ear(
             pen,
             stroke,
@@ -34,5 +36,7 @@ class LowercaseBGlyph(Glyph):
             fc.tooth,
             fc.cover,
             side="left",
+            cut="bottom"
         )
-        draw_rect(pen, x1, 0, x1 + stroke, fc.ascent)
+        # Ascender
+        draw_rect(pen, x1, 0, x1 + stroke, fc.x_height)
