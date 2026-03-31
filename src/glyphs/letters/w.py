@@ -4,7 +4,7 @@ from glyph import Glyph
 from shapes.polygon import draw_polygon
 
 
-class LowercaseVGlyph(Glyph):
+class LowercaseWGlyph(Glyph):
     name = "w"
     unicode = "0x77"
 
@@ -16,8 +16,8 @@ class LowercaseVGlyph(Glyph):
         offset = 0
         width = 400
         overlap = 40
-        taper = 0.7
-        joint_height = 0.6 * fc.x_height
+        taper = 0.75
+        joint_height = 0.8 * fc.x_height
 
         xmid = fc.width / 2 + offset
         xmid1 = fc.width / 4 + offset + overlap
