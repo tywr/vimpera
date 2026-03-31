@@ -40,7 +40,7 @@ def draw_superellipse_ear(
         if cut != "bottom":
             # Bottom half: p_bot → outer bottom → outer right mid → inner right mid → inner bottom → closePath
             pen.moveTo(p_bot)
-            pen.curveTo((p_bot[0], y1), (mid_x, y1), (mid_x, y1))
+            pen.curveTo((p_bot[0], y1), p_bot, (mid_x, y1))
             pen.curveTo((mid_x + hx, y1), (x2, mid_y - hy), (x2, mid_y))
             pen.lineTo((ix2, imid_y))
             pen.curveTo((ix2, imid_y - ihy), (imid_x + ihx, iy1), (imid_x, iy1))
