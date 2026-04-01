@@ -22,7 +22,7 @@ def draw_superellipse_arch(
     w, h = (x2 - x1) / 2, (y2 - y1) / 2
     x_mid, y_mid = x1 + w, y1 + h
 
-    tooth = 100
+    tooth = 80
     offset = find_offset(x1, y1, x2, y2, hx, hy, stroke, tooth)
     print(offset)
 
