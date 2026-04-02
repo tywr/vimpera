@@ -1,6 +1,6 @@
 from config import FontConfig as fc
 from glyph import Glyph
-from shapes.superellipse_arch import draw_superellipse_arch
+from shapes.superellipse_loop import draw_superellipse_loop
 from shapes.rect import draw_rect
 
 
@@ -14,25 +14,37 @@ class UppercaseBGlyph(Glyph):
         stroke: int,
     ):
         offset = 26
-        width = fc.body_width + fc.h_overshoot
-        hx = fc.hx
-        hy = fc.hy
+        width = 420
+        overlap = stroke / 2
+        hx = fc.side_hx
+        hy = fc.side_hy
 
         x1 = fc.width / 2 - width / 2 - stroke / 2 + offset
-        y1 = -fc.overshoot
-        x2 = fc.width / 2 + width / 2 + stroke / 2 + offset
-        y2 = fc.x_height + fc.overshoot
-        draw_superellipse_arch(
+        y1 = 0
+        x2 = fc.width / 2 + width / 2 + stroke / 2 + offset + fc.h_overshoot
+        y2 = fc.ascent
+        ymid = y1 + (y2 - y1) / 2
+
+        draw_rect(pen, x1, 0, x1 + stroke, fc.ascent)
+        draw_superellipse_loop(
             pen,
             stroke,
-            x1,
-            y1,
-            x2,
+            x1 + stroke - width,
+            ymid - stroke / 2,
+            x1 + stroke + width,
             y2,
             hx,
             hy,
-            tooth=fc.tooth + fc.overshoot,
-            side="left",
+            cut="left",
         )
-        draw_rect(pen, x1, 0, x1 + stroke - fc.gap, fc.ascent)
-        draw_rect(pen, x1, fc.tooth, x1 + stroke, fc.x_height - fc.tooth)
+        draw_superellipse_loop(
+            pen,
+            stroke,
+            x1 + stroke - width,
+            0,
+            x1 + stroke + width,
+            ymid + stroke / 2,
+            hx,
+            hy,
+            cut="left",
+        )

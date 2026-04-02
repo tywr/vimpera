@@ -23,6 +23,10 @@ class FontConfig:
     a_hx = hx * 0.75
     a_hy = hy * 0.65
 
+    # Alternative radiuses for side angles (B, R etc.)
+    side_hx = 380
+    side_hy = 160
+
     # Depth of tooth
     tooth = 68
 
@@ -35,7 +39,6 @@ class FontConfig:
 
     # Standard width of characters
     body_width = 340
-
 
     # Curve parameter for ear
     ehy = 30

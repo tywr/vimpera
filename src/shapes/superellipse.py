@@ -20,61 +20,59 @@ def draw_superellipse(
         hx: horizontal handle offset from the side midpoint anchor.
         hy: vertical handle offset from the side midpoint anchor.
         clockwise: winding direction (True for inner contour / counter).
+        cut: optional cut side ("top", "bottom", "left", "right") to draw
+             only the opposite half of the superellipse.
     """
     mid_x = (x1 + x2) / 2
     mid_y = (y1 + y2) / 2
 
     if clockwise:
-        if cut != "top":
+        # Winding: left → top → right → bottom → left
+        if cut is None:
             pen.moveTo((x1, mid_y))
-            pen.curveTo(  # top-left
-                (x1, mid_y + hy),
-                (mid_x - hx, y2),
-                (mid_x, y2),
-            )
-            pen.curveTo(  # top-right
-                (mid_x + hx, y2),
-                (x2, mid_y + hy),
-                (x2, mid_y),
-            )
-        if cut != "bottom":
-            if cut == "top":
-                pen.moveTo((x2, mid_y))
-            pen.curveTo(  # bottom-right
-                (x2, mid_y - hy),
-                (mid_x + hx, y1),
-                (mid_x, y1),
-            )
-            pen.curveTo(  # bottom-left
-                (mid_x - hx, y1),
-                (x1, mid_y - hy),
-                (x1, mid_y),
-            )
-    else:
-        if cut != "top":
+            pen.curveTo((x1, mid_y + hy), (mid_x - hx, y2), (mid_x, y2))
+            pen.curveTo((mid_x + hx, y2), (x2, mid_y + hy), (x2, mid_y))
+            pen.curveTo((x2, mid_y - hy), (mid_x + hx, y1), (mid_x, y1))
+            pen.curveTo((mid_x - hx, y1), (x1, mid_y - hy), (x1, mid_y))
+        elif cut == "top":
             pen.moveTo((x2, mid_y))
-            pen.curveTo(  # top-right
-                (x2, mid_y + hy),
-                (mid_x + hx, y2),
-                (mid_x, y2),
-            )
-            pen.curveTo(  # top-left
-                (mid_x - hx, y2),
-                (x1, mid_y + hy),
-                (x1, mid_y),
-            )
-        if cut != "bottom":
-            if cut == "top":
-                pen.moveTo((x1, mid_y))
-            pen.curveTo(  # bottom-left
-                (x1, mid_y - hy),
-                (mid_x - hx, y1),
-                (mid_x, y1),
-            )
-            pen.curveTo(  # bottom-right
-                (mid_x + hx, y1),
-                (x2, mid_y - hy),
-                (x2, mid_y),
-            )
+            pen.curveTo((x2, mid_y - hy), (mid_x + hx, y1), (mid_x, y1))
+            pen.curveTo((mid_x - hx, y1), (x1, mid_y - hy), (x1, mid_y))
+        elif cut == "bottom":
+            pen.moveTo((x1, mid_y))
+            pen.curveTo((x1, mid_y + hy), (mid_x - hx, y2), (mid_x, y2))
+            pen.curveTo((mid_x + hx, y2), (x2, mid_y + hy), (x2, mid_y))
+        elif cut == "right":
+            pen.moveTo((mid_x, y1))
+            pen.curveTo((mid_x - hx, y1), (x1, mid_y - hy), (x1, mid_y))
+            pen.curveTo((x1, mid_y + hy), (mid_x - hx, y2), (mid_x, y2))
+        elif cut == "left":
+            pen.moveTo((mid_x, y2))
+            pen.curveTo((mid_x + hx, y2), (x2, mid_y + hy), (x2, mid_y))
+            pen.curveTo((x2, mid_y - hy), (mid_x + hx, y1), (mid_x, y1))
+    else:
+        # Winding: right → top → left → bottom → right
+        if cut is None:
+            pen.moveTo((x2, mid_y))
+            pen.curveTo((x2, mid_y + hy), (mid_x + hx, y2), (mid_x, y2))
+            pen.curveTo((mid_x - hx, y2), (x1, mid_y + hy), (x1, mid_y))
+            pen.curveTo((x1, mid_y - hy), (mid_x - hx, y1), (mid_x, y1))
+            pen.curveTo((mid_x + hx, y1), (x2, mid_y - hy), (x2, mid_y))
+        elif cut == "top":
+            pen.moveTo((x1, mid_y))
+            pen.curveTo((x1, mid_y - hy), (mid_x - hx, y1), (mid_x, y1))
+            pen.curveTo((mid_x + hx, y1), (x2, mid_y - hy), (x2, mid_y))
+        elif cut == "bottom":
+            pen.moveTo((x2, mid_y))
+            pen.curveTo((x2, mid_y + hy), (mid_x + hx, y2), (mid_x, y2))
+            pen.curveTo((mid_x - hx, y2), (x1, mid_y + hy), (x1, mid_y))
+        elif cut == "right":
+            pen.moveTo((mid_x, y2))
+            pen.curveTo((mid_x - hx, y2), (x1, mid_y + hy), (x1, mid_y))
+            pen.curveTo((x1, mid_y - hy), (mid_x - hx, y1), (mid_x, y1))
+        elif cut == "left":
+            pen.moveTo((mid_x, y1))
+            pen.curveTo((mid_x + hx, y1), (x2, mid_y - hy), (x2, mid_y))
+            pen.curveTo((x2, mid_y + hy), (mid_x + hx, y2), (mid_x, y2))
 
     pen.closePath()
