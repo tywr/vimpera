@@ -4,7 +4,7 @@ from shapes.superellipse_loop import draw_superellipse_loop
 
 
 class LowercaseOGlyph(Glyph):
-    name = "o"
+    name = "lowercase_o"
     unicode = "0x6F"
 
     def draw(

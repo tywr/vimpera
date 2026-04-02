@@ -3,9 +3,9 @@ from glyph import Glyph
 from shapes.superellipse_loop import draw_superellipse_loop
 
 
-class LowercaseOGlyph(Glyph):
-    name = "o"
-    unicode = "0x6F"
+class UppercaseOGlyph(Glyph):
+    name = "uppercase_o"
+    unicode = "0x4F"
 
     def draw(
         self,

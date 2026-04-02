@@ -6,8 +6,8 @@ from shapes.polygon import draw_polygon
 
 
 class UppercaseKGlyph(Glyph):
-    name = "k"
-    unicode = "0x6B"
+    name = "uppercase_k"
+    unicode = "0x4B"
 
     def draw(
         self,

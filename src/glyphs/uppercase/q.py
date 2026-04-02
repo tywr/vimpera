@@ -4,9 +4,9 @@ from shapes.superellipse_arch import draw_superellipse_arch
 from shapes.rect import draw_rect
 
 
-class LowercaseQGlyph(Glyph):
-    name = "q"
-    unicode = "0x71"
+class UppercaseQGlyph(Glyph):
+    name = "uppercase_q"
+    unicode = "0x51"
 
     def draw(
         self,

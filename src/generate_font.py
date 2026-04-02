@@ -10,7 +10,7 @@ from fontTools.pens.t2CharStringPen import T2CharStringPen
 from config import FontConfig as fc
 from glyph import Glyph
 
-import glyphs.letters
+import glyphs
 
 
 def discover_glyphs():
@@ -18,7 +18,7 @@ def discover_glyphs():
     def on_error(name):
         raise ImportError(f"Failed to import {name}")
 
-    for pkg in [glyphs.letters]:
+    for pkg in [glyphs]:
         for importer, modname, ispkg in pkgutil.walk_packages(
             pkg.__path__, pkg.__name__ + ".", onerror=on_error
         ):

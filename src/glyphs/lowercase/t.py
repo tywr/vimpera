@@ -5,7 +5,7 @@ from shapes.rect import draw_rect
 
 
 class LowercaseTGlyph(Glyph):
-    name = "t"
+    name = "lowercase_t"
     unicode = "0x74"
 
     def draw(

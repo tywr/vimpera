@@ -3,9 +3,9 @@ from glyph import Glyph
 from shapes.rect import draw_rect
 
 
-class LowercaseLGlyph(Glyph):
-    name = "l"
-    unicode = "0x6C"
+class UppercaseLGlyph(Glyph):
+    name = "uppercase_l"
+    unicode = "0x4C"
 
     def draw(
         self,

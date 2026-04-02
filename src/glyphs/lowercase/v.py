@@ -5,7 +5,7 @@ from shapes.polygon import draw_polygon
 
 
 class LowercaseVGlyph(Glyph):
-    name = "v"
+    name = "lowercase_v"
     unicode = "0x76"
 
     def draw(
@@ -28,12 +28,18 @@ class LowercaseVGlyph(Glyph):
         draw_polygon(
             pen,
             points=[
-                (xmid + taper * x_delta / 2, 0),
+                (xmid + x_delta / 2, 0),
                 (xmid + width / 2 + x_delta / 2, fc.x_height),
                 (xmid + width / 2 - x_delta / 2, fc.x_height),
-                (xmid, taper * y_delta),
+                (xmid - x_delta / 2, 0),
+            ],
+        )
+        draw_polygon(
+            pen,
+            points=[
+                (xmid + x_delta / 2, 0),
                 (xmid - width / 2 + x_delta / 2, fc.x_height),
                 (xmid - width / 2 - x_delta / 2, fc.x_height),
-                (xmid - taper * x_delta / 2, 0),
+                (xmid - x_delta / 2, 0),
             ],
         )

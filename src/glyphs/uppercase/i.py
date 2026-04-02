@@ -4,8 +4,8 @@ from shapes.rect import draw_rect
 
 
 class UppercaseIGlyph(Glyph):
-    name = "i"
-    unicode = "0x69"
+    name = "uppercase_i"
+    unicode = "0x49"
 
     def draw(
         self,

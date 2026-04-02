@@ -7,8 +7,8 @@ from booleanOperations.booleanGlyph import BooleanGlyph
 
 
 class UppercaseCGlyph(Glyph):
-    name = "c"
-    unicode = "0x63"
+    name = "uppercase_c"
+    unicode = "0x43"
 
     def draw(
         self,

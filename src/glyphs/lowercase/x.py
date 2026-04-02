@@ -6,7 +6,7 @@ from shapes.polygon import draw_polygon
 
 
 class LowercaseXGlyph(Glyph):
-    name = "x"
+    name = "lowercase_x"
     unicode = "0x78"
 
     def draw(

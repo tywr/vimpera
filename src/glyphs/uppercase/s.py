@@ -4,9 +4,9 @@ from shapes.superellipse_loop import draw_superellipse_loop
 from shapes.cross_curve import draw_cross_curve
 
 
-class LowercaseSGlyph(Glyph):
-    name = "s"
-    unicode = "0x73"
+class UppercaseSGlyph(Glyph):
+    name = "uppercase_s"
+    unicode = "0x53"
 
     def draw(
         self,

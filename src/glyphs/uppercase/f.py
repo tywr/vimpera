@@ -5,8 +5,8 @@ from shapes.rect import draw_rect
 
 
 class UppercaseFGlyph(Glyph):
-    name = "f"
-    unicode = "0x66"
+    name = "uppercase_f"
+    unicode = "0x46"
 
     def draw(
         self,

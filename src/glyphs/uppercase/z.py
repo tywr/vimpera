@@ -5,9 +5,9 @@ from shapes.rect import draw_rect
 from shapes.polygon import draw_polygon
 
 
-class LowercaseZGlyph(Glyph):
-    name = "z"
-    unicode = "0x7a"
+class UppercaseZGlyph(Glyph):
+    name = "uppercase_z"
+    unicode = "0x5A"
 
     def draw(
         self,

@@ -7,7 +7,7 @@ from booleanOperations.booleanGlyph import BooleanGlyph
 
 
 class LowercaseCGlyph(Glyph):
-    name = "c"
+    name = "lowercase_c"
     unicode = "0x63"
 
     def draw(

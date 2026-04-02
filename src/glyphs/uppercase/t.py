@@ -4,9 +4,9 @@ from shapes.corner import draw_corner
 from shapes.rect import draw_rect
 
 
-class LowercaseTGlyph(Glyph):
-    name = "t"
-    unicode = "0x74"
+class UppercaseTGlyph(Glyph):
+    name = "uppercase_t"
+    unicode = "0x54"
 
     def draw(
         self,

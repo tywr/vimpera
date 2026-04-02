@@ -5,9 +5,9 @@ from shapes.rect import draw_rect
 from shapes.polygon import draw_polygon
 
 
-class LowercaseXGlyph(Glyph):
-    name = "x"
-    unicode = "0x78"
+class UppercaseXGlyph(Glyph):
+    name = "uppercase_x"
+    unicode = "0x58"
 
     def draw(
         self,

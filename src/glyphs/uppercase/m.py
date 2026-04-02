@@ -4,9 +4,9 @@ from shapes.superellipse_arch import draw_superellipse_arch
 from shapes.rect import draw_rect
 
 
-class LowercaseMGlyph(Glyph):
-    name = "m"
-    unicode = "0x6D"
+class UppercaseMGlyph(Glyph):
+    name = "uppercase_m"
+    unicode = "0x4D"
 
     def draw(
         self,

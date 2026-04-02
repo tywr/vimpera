@@ -5,7 +5,7 @@ from shapes.rect import draw_rect
 
 
 class LowercaseJGlyph(Glyph):
-    name = "j"
+    name = "lowercase_j"
     unicode = "0x6A"
 
     def draw(

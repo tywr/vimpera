@@ -5,7 +5,7 @@ from shapes.polygon import draw_polygon
 
 
 class LowercaseWGlyph(Glyph):
-    name = "w"
+    name = "lowercase_w"
     unicode = "0x77"
 
     def draw(

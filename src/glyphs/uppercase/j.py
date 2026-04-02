@@ -5,8 +5,8 @@ from shapes.rect import draw_rect
 
 
 class UppercaseJGlyph(Glyph):
-    name = "j"
-    unicode = "0x6A"
+    name = "uppercase_j"
+    unicode = "0x4A"
 
     def draw(
         self,

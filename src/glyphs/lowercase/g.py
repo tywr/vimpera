@@ -6,7 +6,7 @@ from shapes.corner import draw_corner
 
 
 class LowercaseGGlyph(Glyph):
-    name = "g"
+    name = "lowercase_g"
     unicode = "0x67"
 
     def draw(

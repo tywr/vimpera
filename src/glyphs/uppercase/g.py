@@ -6,8 +6,8 @@ from shapes.corner import draw_corner
 
 
 class UppercaseGGlyph(Glyph):
-    name = "g"
-    unicode = "0x67"
+    name = "uppercase_g"
+    unicode = "0x47"
 
     def draw(
         self,

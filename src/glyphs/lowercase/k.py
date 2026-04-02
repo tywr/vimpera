@@ -6,7 +6,7 @@ from shapes.polygon import draw_polygon
 
 
 class LowercaseKGlyph(Glyph):
-    name = "k"
+    name = "lowercase_k"
     unicode = "0x6B"
 
     def draw(

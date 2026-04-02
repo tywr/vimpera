@@ -5,7 +5,7 @@ from shapes.cross_curve import draw_cross_curve
 
 
 class LowercaseSGlyph(Glyph):
-    name = "s"
+    name = "lowercase_s"
     unicode = "0x73"
 
     def draw(

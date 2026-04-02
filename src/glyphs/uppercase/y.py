@@ -4,9 +4,9 @@ from glyph import Glyph
 from shapes.polygon import draw_polygon
 
 
-class LowercaseYGlyph(Glyph):
-    name = "y"
-    unicode = "0x79"
+class UppercaseYGlyph(Glyph):
+    name = "uppercase_y"
+    unicode = "0x59"
 
     def draw(
         self,

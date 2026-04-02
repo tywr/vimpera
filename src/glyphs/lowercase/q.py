@@ -5,7 +5,7 @@ from shapes.rect import draw_rect
 
 
 class LowercaseQGlyph(Glyph):
-    name = "q"
+    name = "lowercase_q"
     unicode = "0x71"
 
     def draw(

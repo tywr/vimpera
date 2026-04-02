@@ -6,7 +6,7 @@ from shapes.rect import draw_rect
 
 
 class LowercaseEGlyph(Glyph):
-    name = "e"
+    name = "lowercase_e"
     unicode = "0x65"
 
     def draw(

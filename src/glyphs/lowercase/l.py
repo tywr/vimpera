@@ -4,7 +4,7 @@ from shapes.rect import draw_rect
 
 
 class LowercaseLGlyph(Glyph):
-    name = "l"
+    name = "lowercase_l"
     unicode = "0x6C"
 
     def draw(
