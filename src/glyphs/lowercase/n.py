@@ -11,7 +11,7 @@ class LowercaseNGlyph(Glyph):
     rx = 0.8           # Horizontal curve dampening (dc.hx * rx)
 
     def draw(self, pen, dc):
-        b = dc.body_bounds(offset=self.offset, overshoot_top=True)
+        b = dc.body_bounds(offset=self.offset, overshoot_top=True, overshoot_bottom=True)
         hx, hy = dc.hx * self.rx, dc.hy * self.loop_ratio
 
         # Top arch, cut at the bottom (only upper half drawn)

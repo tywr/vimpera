@@ -15,6 +15,7 @@ class LowercaseHGlyph(Glyph):
         b = dc.body_bounds(
             offset=self.offset,
             overshoot_top=True,
+            overshoot_bottom=True,
         )
         # Add dampening on hx to keep ratio with the dent
         hx, hy = dc.hx * self.rx, dc.hy * self.loop_ratio
