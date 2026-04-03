@@ -1,4 +1,3 @@
-from config import FontConfig as fc
 from glyph import Glyph
 from shapes.superellipse_arch import draw_superellipse_arch
 from shapes.rect import draw_rect
@@ -7,35 +6,29 @@ from shapes.rect import draw_rect
 class LowercaseQGlyph(Glyph):
     name = "lowercase_q"
     unicode = "0x71"
+    offset = 0
 
-    def draw(
-        self,
-        pen,
-        stroke: int,
-    ):
-        offset = 0
-        width = fc.body_width + fc.h_overshoot
-        hx = fc.hx
-        hy = fc.hy
+    def draw(self, pen, dc):
+        b = dc.body_bounds(
+            offset=self.offset,
+            overshoot_bottom=True,
+            overshoot_top=True,
+            overshoot_left=True,
+        )
 
-        x1 = fc.width / 2 - width / 2 - stroke / 2 + offset
-        y1 = -fc.overshoot
-        x2 = fc.width / 2 + width / 2 + stroke / 2 + offset
-        y2 = fc.x_height + fc.overshoot
-
-        # Right-ear
+        # Bowl (open on the right, same as d)
         draw_superellipse_arch(
             pen,
-            stroke,
-            x1,
-            y1,
-            x2,
-            y2,
-            hx,
-            hy,
-            tooth=fc.tooth + fc.overshoot,
+            dc.stroke,
+            b.x1,
+            b.y1,
+            b.x2,
+            b.y2,
+            b.hx,
+            b.hy,
+            dent=dc.dent + dc.v_overshoot,
             side="right",
         )
-        # Descender
-        draw_rect(pen, x2 - stroke + fc.gap, fc.descent, x2, fc.x_height)
-        draw_rect(pen, x2 - stroke, fc.tooth, x2, fc.x_height - fc.tooth)
+        # Right descender stem
+        draw_rect(pen, b.x2 - dc.stroke + dc.gap, dc.descent, b.x2, dc.x_height)
+        draw_rect(pen, b.x2 - dc.stroke, dc.dent, b.x2, dc.x_height - dc.dent)

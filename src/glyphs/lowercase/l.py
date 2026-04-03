@@ -16,6 +16,18 @@ class LowercaseLGlyph(Glyph):
         # Stem
         draw_rect(pen, b.xmid - dc.stroke / 2, 0, b.xmid + dc.stroke / 2, dc.ascent)
         # Footer
-        draw_rect(pen, b.xmid - left_len - dc.stroke / 2, 0, b.xmid + right_len + dc.stroke / 2, dc.stroke)
+        draw_rect(
+            pen,
+            b.xmid - left_len - dc.stroke / 2,
+            0,
+            b.xmid + right_len + dc.stroke / 2,
+            dc.stroke,
+        )
         # Left cap
-        draw_rect(pen, b.xmid - left_len - dc.stroke / 2, dc.ascent - dc.stroke, b.xmid, dc.ascent)
+        draw_rect(
+            pen,
+            b.xmid - left_len - dc.stroke / 2,
+            dc.ascent - dc.stroke,
+            b.xmid,
+            dc.ascent,
+        )

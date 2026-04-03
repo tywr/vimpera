@@ -1,4 +1,3 @@
-from config import FontConfig as fc
 from glyph import Glyph
 from shapes.superellipse_arch import draw_superellipse_arch
 from shapes.rect import draw_rect
@@ -7,45 +6,30 @@ from shapes.rect import draw_rect
 class LowercaseNGlyph(Glyph):
     name = "lowercase_n"
     unicode = "0x6E"
+    offset = 0
+    loop_ratio = 0.6   # Controls how far down the arch starts from x_height
+    rx = 0.8           # Horizontal curve dampening (dc.hx * rx)
 
-    def draw(
-        self,
-        pen,
-        stroke: int,
-    ):
-        offset = 0
-        width = fc.body_width + 18
-        hx = fc.a_hx
-        hy = fc.a_hy
-        loop_ratio = fc.a_ratio
+    def draw(self, pen, dc):
+        b = dc.body_bounds(offset=self.offset, overshoot_top=True)
+        hx, hy = dc.hx * self.rx, dc.hy * self.loop_ratio
 
-        x1 = fc.width / 2 - width / 2 - stroke / 2 + offset
-        y1 = fc.x_height - (fc.x_height + fc.overshoot) * loop_ratio
-        x2 = fc.width / 2 + width / 2 + stroke / 2 + offset
-        y2 = fc.x_height + fc.overshoot
+        # Top arch, cut at the bottom (only upper half drawn)
         draw_superellipse_arch(
             pen,
-            stroke,
-            x1,
-            y1,
-            x2,
-            y2,
+            dc.stroke,
+            b.x1,
+            b.y2 - b.height * self.loop_ratio,
+            b.x2,
+            b.y2,
             hx,
             hy,
-            tooth=fc.tooth + fc.overshoot,
+            dent=dc.dent + dc.v_overshoot,
             side="left",
             cut="bottom",
         )
-        # Left stem
-        draw_rect(pen, x1, 0, x1 + stroke, fc.x_height - fc.tooth)
-        draw_rect(pen, x1, 0, x1 + stroke - fc.gap, fc.x_height)
-        # Right stem
-        draw_rect(
-            pen,
-            x2 - stroke,
-            0,
-            x2,
-            fc.x_height
-            - ((fc.x_height + fc.overshoot) * loop_ratio + fc.overshoot) / 2
-            + fc.overshoot,
-        )
+        # Left stem — up to x_height with gap at top
+        draw_rect(pen, b.x1, 0, b.x1 + dc.stroke, dc.x_height - dc.dent)
+        draw_rect(pen, b.x1, 0, b.x1 + dc.stroke - dc.gap, dc.x_height)
+        # Right stem — reaches up to the arch midpoint
+        draw_rect(pen, b.x2 - dc.stroke, 0, b.x2, b.y2 - b.height * self.loop_ratio / 2)

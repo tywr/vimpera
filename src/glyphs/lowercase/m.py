@@ -1,4 +1,3 @@
-from config import FontConfig as fc
 from glyph import Glyph
 from shapes.superellipse_arch import draw_superellipse_arch
 from shapes.rect import draw_rect
@@ -7,64 +6,57 @@ from shapes.rect import draw_rect
 class LowercaseMGlyph(Glyph):
     name = "lowercase_m"
     unicode = "0x6D"
+    offset = 0
+    width_ratio = 440 / 340
+    hx = 140  # Reduced hx for tighter arches at double width
+    mid_y = 200  # Bottom of the middle stem extension
 
-    def draw(
-        self,
-        pen,
-        stroke: int,
-    ):
-        offset = 0
-        width = 440
-        hx = 140
-        hy = fc.hy
-        mid_len = 0.6
+    def draw(self, pen, dc):
+        b = dc.body_bounds(
+            offset=self.offset,
+            overshoot_bottom=True,
+            overshoot_top=True,
+            width_ratio=self.width_ratio,
+        )
 
-        x1 = fc.width / 2 - width / 2 - stroke / 2 + offset
-        y1 = -fc.overshoot
-        x2 = fc.width / 2 + width / 2 + stroke / 2 + offset
-        y2 = fc.x_height + fc.overshoot
-        xmid = x1 + (x2 - x1) / 2
-
-        # Left arch
+        # Left arch (x1 to xmid)
         draw_superellipse_arch(
             pen,
-            stroke,
-            x1,
-            y1,
-            xmid + stroke / 2,
-            y2,
-            hx,
-            hy,
-            tooth=fc.tooth + fc.overshoot,
+            dc.stroke,
+            b.x1,
+            b.y1,
+            b.xmid + dc.stroke / 2,
+            b.y2,
+            self.hx,
+            dc.hy,
+            dent=dc.dent + dc.v_overshoot,
             side="left",
             cut="bottom",
         )
-        # Right arch
+        # Right arch (xmid to x2)
         draw_superellipse_arch(
             pen,
-            stroke,
-            xmid - stroke / 2,
-            y1,
-            x2,
-            y2,
-            hx,
-            hy,
-            tooth=fc.tooth + fc.overshoot,
+            dc.stroke,
+            b.xmid - dc.stroke / 2,
+            b.y1,
+            b.x2,
+            b.y2,
+            self.hx,
+            dc.hy,
+            dent=dc.dent + dc.v_overshoot,
             side="left",
             cut="bottom",
         )
         # Left foot
-        draw_rect(pen, x1, 0, x1 + stroke - fc.gap, fc.x_height)
-        draw_rect(pen, x1, 0, x1 + stroke, fc.x_height - fc.tooth)
-        # Right foot
-        draw_rect(
-            pen, x2 - stroke, 0, x2, (fc.x_height + 2 * fc.overshoot) / 2 - fc.overshoot
-        )
-        # Middle extension
+        draw_rect(pen, b.x1, 0, b.x1 + dc.stroke - dc.gap, dc.x_height)
+        draw_rect(pen, b.x1, 0, b.x1 + dc.stroke, dc.x_height - dc.dent)
+        # Right foot — reaches up to the arch midpoint
+        draw_rect(pen, b.x2 - dc.stroke, 0, b.x2, b.ymid)
+        # Middle stem extension
         draw_rect(
             pen,
-            xmid - stroke / 2,
-            200,
-            xmid + stroke / 2,
-            fc.x_height - fc.tooth,
+            b.xmid - dc.stroke / 2,
+            self.mid_y,
+            b.xmid + dc.stroke / 2,
+            dc.x_height - dc.dent,
         )
