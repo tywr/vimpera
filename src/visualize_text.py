@@ -14,12 +14,13 @@ from fontTools.pens.recordingPen import RecordingPen
 
 sys.path.insert(0, "src")
 from config import FontConfig as fc
+from config import DrawConfig
 from generate_font import discover_glyphs
 
 from visualize import recording_to_mpl_path
 
 
-def visualize_text(text, stroke=fc.default_stroke):
+def visualize_text(text):
     all_glyphs = discover_glyphs()
     glyph_map = {}
     for g in all_glyphs:
@@ -31,17 +32,17 @@ def visualize_text(text, stroke=fc.default_stroke):
     cursor_x = 0
     for ch in text:
         if ch == " ":
-            cursor_x += fc.width
+            cursor_x += fc.window_width
             continue
 
         glyph = glyph_map.get(ch)
         if glyph is None:
-            cursor_x += fc.width
+            cursor_x += fc.window_width
             continue
 
         # Draw through pathops to get simplified/correct winding
         raw_path = pathops.Path()
-        glyph.draw(pathops.PathPen(raw_path), stroke=stroke)
+        glyph.draw(pathops.PathPen(raw_path), dc=DrawConfig())
         simplified = pathops.simplify(raw_path, clockwise=False, keep_starting_points=True)
 
         # Record the simplified path
@@ -61,11 +62,11 @@ def visualize_text(text, stroke=fc.default_stroke):
         patch = mpatches.PathPatch(path, facecolor="#222222", edgecolor="none")
         ax.add_patch(patch)
 
-        cursor_x += fc.width
+        cursor_x += fc.window_width
 
     # Vertical cell separators
     for i in range(len(text) + 1):
-        x = i * fc.width
+        x = i * fc.window_width
         ax.axvline(x, color="#aaa", linewidth=0.5, linestyle=":")
 
     # Guides
@@ -90,6 +91,5 @@ def visualize_text(text, stroke=fc.default_stroke):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Visualize text with Kassiopea font")
     parser.add_argument("text", help="Text string to render")
-    parser.add_argument("-s", type=int, default=fc.default_stroke, help="Stroke width")
     args = parser.parse_args()
-    visualize_text(args.text, stroke=args.s)
+    visualize_text(args.text)

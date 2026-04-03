@@ -24,8 +24,8 @@ class LowercaseQGlyph(Glyph):
             b.y1,
             b.x2,
             b.y2,
-            b.hx,
-            b.hy,
+            dc.hx,
+            dc.hy,
             dent=dc.dent + dc.v_overshoot,
             side="right",
         )

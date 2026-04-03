@@ -38,8 +38,8 @@ class LowercaseTGlyph(Glyph):
             b.ymid,
             b.xmid + b.width / 2,
             0,
-            b.hx,
-            b.hy,
+            dc.hx,
+            dc.hy,
             orientation="bottom-right",
         )
         # Footer extension from corner to right edge

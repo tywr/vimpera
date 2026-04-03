@@ -19,5 +19,5 @@ class LowercaseOGlyph(Glyph):
             overshoot_left=True,
             overshoot_right=True,
         )
-        print(b.hx, b.hy)
-        draw_superellipse_loop(pen, dc.stroke, b.x1, b.y1, b.x2, b.y2, b.hx, b.hy)
+        print(dc.hx, dc.hy)
+        draw_superellipse_loop(pen, dc.stroke, b.x1, b.y1, b.x2, b.y2, dc.hx, dc.hy)

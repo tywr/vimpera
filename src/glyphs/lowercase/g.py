@@ -26,8 +26,8 @@ class LowercaseGGlyph(Glyph):
             b.y1,
             b.x2,
             b.y2,
-            b.hx,
-            b.hy,
+            dc.hx,
+            dc.hy,
             dent=dc.dent + dc.v_overshoot,
             side="right",
         )
@@ -43,8 +43,8 @@ class LowercaseGGlyph(Glyph):
             0,
             b.x2 - b.width / 2,
             dc.descent + self.tail_offset,
-            b.hx * 0.5,
-            b.hy,
+            dc.hx * 0.5,
+            dc.hy,
             orientation="bottom-left",
         )
         # Horizontal tail along the descender

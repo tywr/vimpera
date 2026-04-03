@@ -21,7 +21,7 @@ class LowercaseEGlyph(Glyph):
 
         # Half-top of a superellipse
         draw_superellipse_loop(
-            pen, dc.stroke, b.x1, b.y1, b.x2, b.y2, b.hx, b.hy, cut="bottom"
+            pen, dc.stroke, b.x1, b.y1, b.x2, b.y2, dc.hx, dc.hy, cut="bottom"
         )
         # Corner from mid-left to bottom
         draw_corner(
@@ -31,8 +31,8 @@ class LowercaseEGlyph(Glyph):
             b.ymid + 2 * dc.v_overshoot,
             b.xmid,
             0,
-            b.hx,
-            b.hy,
+            dc.hx,
+            dc.hy,
             orientation="bottom-right",
         )
         # Extension

@@ -34,7 +34,7 @@ class LowercaseFGlyph(Glyph):
             dc.x_height,
             b.xmid + right_len + dc.stroke / 2,
             dc.ascent,
-            b.hx * rx,
-            b.hy,
+            dc.hx * rx,
+            dc.hy,
             orientation="top-right",
         )

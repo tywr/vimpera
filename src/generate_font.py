@@ -1,6 +1,7 @@
 """Generate font."""
 
 import importlib
+import inspect
 import pkgutil
 
 import pathops
@@ -23,7 +24,7 @@ def discover_glyphs():
             pkg.__path__, pkg.__name__ + ".", onerror=on_error
         ):
             importlib.import_module(modname)
-    return [cls() for cls in Glyph.__subclasses__()]
+    return [cls() for cls in Glyph.__subclasses__() if not inspect.isabstract(cls)]
 
 
 def draw_notdef(pen):

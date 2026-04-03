@@ -32,8 +32,8 @@ class LowercaseJGlyph(Glyph):
             0,
             b.xmid,
             dc.descent + self.tail_offset,
-            b.hx * 0.5,
-            b.hy,
+            dc.hx * 0.5,
+            dc.hy,
             orientation="bottom-left",
         )
         # Extension after the corner to the left

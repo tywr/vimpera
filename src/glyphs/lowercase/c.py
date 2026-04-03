@@ -24,7 +24,7 @@ class LowercaseCGlyph(Glyph):
 
         loop_glyph = ufoLib2.objects.Glyph()
         draw_superellipse_loop(
-            loop_glyph.getPen(), dc.stroke, b.x1, b.y1, b.x2, b.y2, b.hx, b.hy
+            loop_glyph.getPen(), dc.stroke, b.x1, b.y1, b.x2, b.y2, dc.hx, dc.hy
         )
 
         cut_glyph = ufoLib2.objects.Glyph()

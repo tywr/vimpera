@@ -63,8 +63,8 @@ class LowercaseAGlyph(Glyph):
             b.y1 + b.height / 2,
             b.xmid,
             b.y2,
-            b.hy,
-            b.hy,
+            dc.hy,
+            dc.hy,
             orientation="top-left",
         )
         # Cap
