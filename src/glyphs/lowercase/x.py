@@ -1,6 +1,7 @@
 from math import atan, sin
 from glyph import Glyph
 from shapes.polygon import draw_polygon
+from shapes.parallelogramm import draw_parallelogramm
 
 
 class LowercaseXGlyph(Glyph):
@@ -11,27 +12,7 @@ class LowercaseXGlyph(Glyph):
 
     def draw(self, pen, dc):
         b = dc.body_bounds(offset=self.offset, width_ratio=self.width_ratio)
-
-        theta = atan(dc.x_height / b.width)
-        delta = dc.stroke / sin(theta)
-
-        # Forward diagonal (bottom-left to top-right)
-        draw_polygon(
-            pen,
-            points=[
-                (b.x1, 0),
-                (b.x1 + delta, 0),
-                (b.x2, dc.x_height),
-                (b.x2 - delta, dc.x_height),
-            ],
-        )
-        # Backward diagonal (bottom-right to top-left)
-        draw_polygon(
-            pen,
-            points=[
-                (b.x2 - delta, 0),
-                (b.x2, 0),
-                (b.x1 + delta, dc.x_height),
-                (b.x1, dc.x_height),
-            ],
+        draw_parallelogramm(pen, dc.stroke, b.x1, b.y1, b.x2, b.y2)
+        draw_parallelogramm(
+            pen, dc.stroke, b.x2, b.y1, b.x1, b.y2, direction="top-left"
         )

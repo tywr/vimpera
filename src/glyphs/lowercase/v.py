@@ -1,6 +1,7 @@
 from math import atan, cos, sin
 from glyph import Glyph
 from shapes.polygon import draw_polygon
+from shapes.parallelogramm import draw_parallelogramm
 
 
 class LowercaseVGlyph(Glyph):
@@ -8,32 +9,25 @@ class LowercaseVGlyph(Glyph):
     unicode = "0x76"
     offset = 0
     width_ratio = 380 / 340
+    overlap = 0.075
 
     def draw(self, pen, dc):
         b = dc.body_bounds(offset=self.offset, width_ratio=self.width_ratio)
-        half_width = b.width / 2 - dc.stroke / 2
 
-        branch_h = dc.x_height
-        theta = atan(branch_h / half_width)
-        x_delta = dc.stroke / sin(theta)
-
-        # Right branch
-        draw_polygon(
+        draw_parallelogramm(
             pen,
-            points=[
-                (b.xmid + x_delta / 2, 0),
-                (b.xmid + half_width + x_delta / 2, dc.x_height),
-                (b.xmid + half_width - x_delta / 2, dc.x_height),
-                (b.xmid - x_delta / 2, 0),
-            ],
+            dc.stroke,
+            b.xmid - self.overlap * b.width,
+            0,
+            b.x2,
+            b.y2,
         )
-        # Left branch
-        draw_polygon(
+        draw_parallelogramm(
             pen,
-            points=[
-                (b.xmid + x_delta / 2, 0),
-                (b.xmid - half_width + x_delta / 2, dc.x_height),
-                (b.xmid - half_width - x_delta / 2, dc.x_height),
-                (b.xmid - x_delta / 2, 0),
-            ],
+            dc.stroke,
+            b.xmid + self.overlap * b.width,
+            0,
+            b.x1,
+            b.y2,
+            direction="top-left",
         )
