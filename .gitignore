@@ -4,3 +4,5 @@ src/__pycache__
 *.pyc
 src/characters/__pycache__
 BerkeleyMonoTrial-Regular.otf
+KSF.otf
+.DS_Store
