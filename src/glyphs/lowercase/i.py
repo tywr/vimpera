@@ -15,7 +15,9 @@ class LowercaseIGlyph(Glyph):
         left_len = b.width * (1 - self.rl_ratio) - dc.stroke_x / 2
 
         # Stem
-        draw_rect(pen, b.xmid - dc.stroke_x / 2, 0, b.xmid + dc.stroke_x / 2, dc.x_height)
+        draw_rect(
+            pen, b.xmid - dc.stroke_x / 2, 0, b.xmid + dc.stroke_x / 2, dc.x_height
+        )
         # Footer
         draw_rect(
             pen,
@@ -35,8 +37,8 @@ class LowercaseIGlyph(Glyph):
         # Accent dot
         draw_rect(
             pen,
-            b.xmid - self.dot_width - dc.stroke_x / 2,
-            dc.accent - self.dot_width / 2 - dc.stroke_y / 2,
-            b.xmid + dc.stroke_x / 2,
-            dc.accent + dc.stroke_y / 2 + self.dot_width / 2,
+            b.xmid - self.dot_width / 2 - dc.stroke_x / 2,
+            dc.accent - self.dot_width / 2 - dc.stroke_x / 2,
+            b.xmid + dc.stroke_x / 2 + self.dot_width / 2,
+            dc.accent + dc.stroke_x / 2 + self.dot_width / 2,
         )

@@ -1,11 +1,10 @@
-from math import atan, sin, cos
-from glyph import Glyph
-from shapes.polygon import draw_polygon
+from math import cos
+from glyphs.uppercase import UppercaseGlyph
 from shapes.parallelogramm import draw_parallelogramm
 from shapes.rect import draw_rect
 
 
-class UppercaseAGlyph(Glyph):
+class UppercaseAGlyph(UppercaseGlyph):
     name = "uppercase_a"
     unicode = "0x41"
     offset = 0

@@ -49,7 +49,7 @@ class LowercaseJGlyph(Glyph):
         draw_rect(
             pen,
             b.x2 - dc.stroke_x / 2 - self.dot_width / 2 - dc.stroke_x / 2,
-            dc.accent - self.dot_width / 2 - dc.stroke_y / 2,
+            dc.accent - self.dot_width / 2 - dc.stroke_x / 2,
             b.x2 + self.dot_width / 2,
-            dc.accent + dc.stroke_y / 2 + self.dot_width / 2,
+            dc.accent + dc.stroke_x / 2 + self.dot_width / 2,
         )

@@ -13,6 +13,6 @@ class UppercaseTGlyph(UppercaseGlyph):
         )
 
         # Vertical stem (centered)
-        draw_rect(pen, b.xmid - dc.stroke / 2, b.y1, b.xmid + dc.stroke / 2, b.y2)
+        draw_rect(pen, b.xmid - dc.stroke_x / 2, b.y1, b.xmid + dc.stroke_x / 2, b.y2)
         # Top bar
-        draw_rect(pen, b.x1, b.y2 - dc.stroke, b.x2, b.y2)
+        draw_rect(pen, b.x1, b.y2 - dc.stroke_y, b.x2, b.y2)

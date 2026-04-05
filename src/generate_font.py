@@ -10,13 +10,14 @@ from fontTools.pens.t2CharStringPen import T2CharStringPen
 
 from config import FontConfig as fc
 from config import DrawConfig
-from glyph import Glyph
+from glyphs import Glyph
 
 import glyphs
 
 
 def discover_glyphs():
     """Recursively import all modules under glyphs/ and return Glyph subclasses."""
+
     def on_error(name):
         raise ImportError(f"Failed to import {name}")
 
@@ -25,7 +26,15 @@ def discover_glyphs():
             pkg.__path__, pkg.__name__ + ".", onerror=on_error
         ):
             importlib.import_module(modname)
-    return [cls() for cls in Glyph.__subclasses__() if not inspect.isabstract(cls)]
+    def all_subclasses(cls):
+        result = []
+        for sub in cls.__subclasses__():
+            if not inspect.isabstract(sub):
+                result.append(sub)
+            result.extend(all_subclasses(sub))
+        return result
+
+    return [cls() for cls in all_subclasses(Glyph)]
 
 
 def draw_notdef(pen):
