@@ -9,9 +9,9 @@ class UppercaseBGlyph(Glyph):
     unicode = "0x42"
     offset = 0
     loop_ratio = 1  # Horizontal split between left stem and loops
-    upper_ratio = 0.95  # Upper loop width as a fraction of the lower loop width
+    upper_ratio = 0.9  # Upper loop width as a fraction of the lower loop width
     hx = 200
-    hy = 200 * 0.85
+    hy = 200
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -19,27 +19,30 @@ class UppercaseBGlyph(Glyph):
             height="ascent",
             overshoot_right=True,
         )
-        arch_offset = 3 * dc.stroke / 4
-        w = b.width / 2
-        lower_x1 = b.x1 + (1 - self.loop_ratio) * w
-        upper_x2 = lower_x1 + (b.x2 - lower_x1) * self.upper_ratio
-        cut_x = (lower_x1 + b.x2) / 2
-        cut_x_up = (lower_x1 + upper_x2) / 2
+        lower_x1 = b.x1 + (1 - self.loop_ratio) * b.width
+        lower_x2 = b.x2
+        lower_width = lower_x2 - lower_x1
+        upper_width = self.upper_ratio * lower_width
+        delta = lower_width - upper_width
+        upper_x1 = lower_x1 + delta / 2
+        upper_x2 = lower_x2 - delta / 2
+        # gap_x = upper_x2 - dc.stroke + (lower_x2 - upper_x2) * 0.63
+        gap_x = upper_x2 - dc.stroke + 2.5 * dc.gap
 
         # Left stem
         draw_rect(pen, b.x1, 0, b.x1 + dc.stroke, dc.ascent)
 
         # Upper loop (narrower, displaced left)
-        offset = draw_superellipse_arch(
+        draw_superellipse_arch(
             pen,
             dc.stroke,
-            lower_x1,
+            upper_x1,
             b.ymid - dc.stroke / 2,
             upper_x2,
             b.y2,
             self.hx,
             self.hy,
-            offset=0.75 * dc.stroke - dc.gap,
+            offset=0.75 * dc.stroke - dc.gap / 2,
             side="bottom",
             cut="left",
         )
@@ -49,17 +52,22 @@ class UppercaseBGlyph(Glyph):
             dc.stroke,
             lower_x1,
             0,
-            b.x2,
+            lower_x2,
             b.ymid + dc.stroke / 2,
             self.hx,
             self.hy,
-            offset=0.75 * dc.stroke,
-            # dent=80,
+            offset=0.75 * dc.stroke - dc.gap / 2,
             side="top",
             cut="left",
         )
 
         # Connecting bars
-        draw_rect(pen, b.x1, b.y2 - dc.stroke, cut_x_up, b.y2)
-        draw_rect(pen, b.x1, 0, cut_x, dc.stroke)
-        draw_rect(pen, b.x1, b.ymid - dc.stroke / 2, upper_x2 - dc.stroke, b.ymid + dc.stroke / 2)
+        draw_rect(pen, b.x1, b.y2 - dc.stroke, upper_x2 - upper_width / 2, b.y2)
+        draw_rect(pen, b.x1, 0, b.x2 - lower_width / 2, dc.stroke)
+        draw_rect(
+            pen,
+            b.x1,
+            b.ymid - dc.stroke / 2,
+            gap_x,
+            b.ymid + dc.stroke / 2,
+        )
