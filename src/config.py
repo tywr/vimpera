@@ -83,20 +83,23 @@ class DrawConfig(FontConfig):
         brx = 1.6
         ratio_x = exp((w - 400) * log(brx) / 300)
 
-        bry = 1.45
+        bry = 1.6
         ratio_y = exp((w - 400) * log(bry) / 300)
 
-        bra = 1.2
+        bra = 1.6
         ratio_alt = exp((w - 400) * log(bra) / 300)
 
         rx = 15
         exh = exp((w - 400) * log(rx) / 300)
 
-        bhy = 1.2
+        bhy = 1.1
         hy_ratio = exp((w - 400) * log(bhy) / 300)
 
+        bhx = 1.1
+        hx_ratio = exp((w - 400) * log(bhx) / 300)
+
         # Function mapping 100 → 0.5 and 700 → 0.2
-        taper = min(0.5, 0.5 - 0.0010 * (w - 400))
+        taper = min(0.5, 0.5 - 0.00085 * (w - 400))
 
         return cls(
             stroke_x=int(cls.stroke_x * ratio_x),
@@ -110,6 +113,7 @@ class DrawConfig(FontConfig):
             descent=cls.descent,
             taper=taper,
             hy=hy_ratio * cls.hy,
+            hx=hx_ratio * cls.hx,
             cap_hy=hy_ratio * cls.cap_hy,
         )
 
